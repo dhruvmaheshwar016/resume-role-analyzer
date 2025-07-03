@@ -1,9 +1,12 @@
-
 import React from 'react';
 import { ArrowRight, CheckCircle, Users, Zap, Target, TrendingUp, FileText, Award, Lightbulb } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import UserMenu from '@/components/UserMenu';
 
 const Landing = () => {
+  const { user, loading } = useAuth();
+
   const features = [
     {
       icon: Zap,
@@ -68,12 +71,28 @@ const Landing = () => {
                 Resume Matcher
               </h1>
             </div>
-            <Link 
-              to="/matcher"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
-            >
-              Try Now
-            </Link>
+            {!loading && (
+              <div className="flex items-center space-x-4">
+                {user ? (
+                  <UserMenu />
+                ) : (
+                  <div className="flex items-center space-x-3">
+                    <Link 
+                      to="/auth"
+                      className="text-gray-600 hover:text-gray-800 font-medium transition-colors"
+                    >
+                      Sign In
+                    </Link>
+                    <Link 
+                      to="/auth"
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+                    >
+                      Get Started
+                    </Link>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </header>
@@ -94,10 +113,10 @@ const Landing = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link 
-              to="/matcher"
+              to={user ? "/matcher" : "/auth"}
               className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center"
             >
-              Start Matching Now
+              {user ? "Start Matching Now" : "Get Started Free"}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
             <button className="text-gray-600 hover:text-gray-800 font-medium flex items-center">
@@ -209,10 +228,10 @@ const Landing = () => {
                 <div className="text-4xl font-bold mb-2">10,000+</div>
                 <p className="text-blue-100 mb-6">Resumes Analyzed</p>
                 <Link 
-                  to="/matcher"
+                  to={user ? "/matcher" : "/auth"}
                   className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors inline-flex items-center"
                 >
-                  Start Your Analysis
+                  {user ? "Start Your Analysis" : "Get Started Free"}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </div>
@@ -233,10 +252,10 @@ const Landing = () => {
               Stop sending generic resumes. Start using data-driven insights to craft the perfect application for every job.
             </p>
             <Link 
-              to="/matcher"
+              to={user ? "/matcher" : "/auth"}
               className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center"
             >
-              Get Started for Free
+              {user ? "Start Matching" : "Get Started for Free"}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </div>

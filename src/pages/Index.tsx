@@ -1,15 +1,35 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Upload, FileText, Zap, Target, TrendingUp } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import UserMenu from '@/components/UserMenu';
 import ResumeUpload from '../components/ResumeUpload';
 import JobDescriptionInput from '../components/JobDescriptionInput';
 import AnalysisResults from '../components/AnalysisResults';
 
 const Index = () => {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
   const [resumeText, setResumeText] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [analysisResults, setAnalysisResults] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  // Redirect to auth if not logged in
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/auth');
+    }
+  }, [user, loading, navigate]);
+
+  // Don't render anything while loading or if not authenticated
+  if (loading || !user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   const handleAnalyze = async () => {
     if (!resumeText || !jobDescription) {
@@ -73,6 +93,7 @@ const Index = () => {
                 Resume Matcher
               </h1>
             </div>
+            <UserMenu />
           </div>
         </div>
       </header>
