@@ -6,8 +6,6 @@
 
 It helps users assess how well their resume aligns with job postings and provides detailed feedback on missing or mismatched skills.
 
-🔗 **Live App**: [Resume Matcher App](https://lovable.dev/projects/15c98b41-15f5-4966-9639-d9521e9ee684)
-
 ---
 
 ## 🔍 Key Features
